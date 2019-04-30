@@ -1,71 +1,130 @@
 
-var result = `*{
-  transition: all 1s;
+var result = `/* 
+* 面试官你好，我是Blake
+* 只用文字作做我介绍太单调了
+* 我就用代码来介绍吧
+* 首先准备一些样式
+*/
+
+*{
+ transition: all 1s;
 }
 html{
-  background: rgb(222,222,222);
+ background: #eee;
 }
-pre{
-  padding: 16px;
-  border: 1px solid black;
-}
-/*
- *我现在需要一些代码高亮
- */
-.token.selector{
-  color: #690;
-}
-.token.property{
-  color: #905;
-}
-.token.punctuation{
-  color: #999;
-}
-/*
- *加点3D效果
- */
 #code{
-  transform: rotate(360deg);
+ border: 1px solid #aaa;
+ padding: 16px;
 }
-/*
- *现在需要一张白纸
- */
+
+/* 我需要一点代码高亮 */
+
+.token.selector{ color: #690; }
+.token.property{ color: #905; }
+
+/* 加一个呼吸效果 */
+
 #code{
-  position: fixed;
-  left: 0;
-  width: 50%;
-  height: 100%;
+ animation: breath 0.5s infinite alternate-reverse;
 }
-#paper{
-  position: fixed;
-  right: 0;
-  width: 50%;
-  height: 100%;
-  background: black;
-  padding: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#paper .content{
-  background: white;
-  width: 100%;
-  height: 100%;
-}
+
+/* 现在正式开始 */
+
+/* 我需要一张白纸 */
 `;
 
-var result2 = `
+var result2 = `#code-wrapper{
+  width: 50%; 
+  left: 0; 
+  position: fixed; 
+  height: 100%;
+ }
+ #paper > .content {
+  display: block;
+ }
+ 
+ /* 于是我就可以在白纸上写字了，请看右边 */
   `;
 
+var result3 = `
+/* 接下来用一个优秀的库 marked.js
+ * 把 Markdown 变成 HTML
+ */
+`;
+
+var result4 = `
+/*
+ * 这就是我的会动的简历
+ * 谢谢观看
+ */
+`
+
 var md = `
-# 标题一
-# 标题一
-# 标题一
-# 标题一
-# 标题一
-# 标题一
-# 标题一
-# 标题一
+# 自我介绍
+
+我叫 Blake
+1990 年 1 月出生
+XXX 学校毕业
+自学前端半年
+希望应聘前端开发岗位
+
+# 技能介绍
+
+熟悉 JavaScript CSS
+
+# 项目介绍
+
+1. XXX 轮播
+2. XXX 简历
+3. XXX 画板
+
+# 联系方式
+
+- QQ xxxxxxxx
+- Email xxxxxxxx
+- 手机 xxxxxxx
+
+# 联系方式
+
+- QQ xxxxxxxx
+- Email xxxxxxxx
+- 手机 xxxxxxx
+
+# 联系方式
+
+- QQ xxxxxxxx
+- Email xxxxxxxx
+- 手机 xxxxxxx
+
+# 联系方式
+
+- QQ xxxxxxxx
+- Email xxxxxxxx
+- 手机 xxxxxxx
+
+# 联系方式
+
+- QQ xxxxxxxx
+- Email xxxxxxxx
+- 手机 xxxxxxx
+
+# 联系方式
+
+- QQ xxxxxxxx
+- Email xxxxxxxx
+- 手机 xxxxxxx
+
+# 联系方式
+
+- QQ xxxxxxxx
+- Email xxxxxxxx
+- 手机 xxxxxxx
+
+# 联系方式
+
+- QQ xxxxxxxx
+- Email xxxxxxxx
+- 手机 xxxxxxx
 `;
 
 function writeCode(prefix,result,fn){
@@ -84,7 +143,7 @@ function writeCode(prefix,result,fn){
       window.clearInterval(timer);
       fn && fn.call();
     } 
-  },10);
+  },35);
 };
 
 function writeMarkdown(markdown,fn){
@@ -99,7 +158,7 @@ function writeMarkdown(markdown,fn){
       window.clearInterval(timer);
       fn && fn.call();
     } 
-  },10);
+  },35);
 }
 
 writeCode(
@@ -107,7 +166,13 @@ writeCode(
   result,
   ()=>{createPaper(()=>{
     writeCode(result,result2,()=>{
-      writeMarkdown(md);
+      writeMarkdown(md,()=>{
+        writeCode(result+result2,result3,()=>{
+          convertMarkdownToHtml(()=>{
+            writeCode(result+result2+result3,result4);
+          });
+        });
+      });
     });
   });
 });
@@ -115,9 +180,19 @@ writeCode(
 function createPaper(fn){
   var paper = document.createElement('div');
   paper.id = 'paper';
-  document.body.appendChild(paper);
   var content = document.createElement('pre');
   content.className = 'content';
   paper.appendChild(content);
+  document.body.appendChild(paper);
   fn && fn.call();
-}
+};
+
+//将markdown变成html
+function convertMarkdownToHtml(fn){
+  var div = document.createElement('div');
+  div.className = 'html markdown-body';
+  div.innerHTML = marked(md);
+  let markdownContainer = document.querySelector('#paper > .content');
+  markdownContainer.replaceWith(div);
+  fn && fn.call();
+};

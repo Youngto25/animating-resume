@@ -3,14 +3,18 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="./reder/prism/prism.css">
+  <link rel="stylesheet" href="./reder/github-markdown.css">
   <link rel="stylesheet" href="./css/default.css">
   <title>会动的简历</title>
   <style id="niubi"></style>
 </head>
 <body>
-  <pre id="code"></pre>
+  <div id="code-wrapper">
+    <pre id="code"></pre>
+  </div>
   <!--此时prism.js要放在main.js上面，否则会出现prism is not define的情况-->
   <script src="./reder/prism/prism.js"></script>
+  <script src="./reder/marked.min.js"></script>
   <script src="./js/main.js"></script>
 </body>
 </html>
